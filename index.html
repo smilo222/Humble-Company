@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Humble Innovations</title>
+    <meta name="description" content="Founder of Humble Innovations | Tech Entrepreneur from Bulawayo, Zimbabwe | Building innovative solutions for the future">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --dark: #0a0e1f;
+            --light: #f8fafc;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --neon-glow: 0 0 20px rgba(99, 102, 241, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            background: #000;
+        }
+
+        /* Futuristic Canvas Background */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.4;
+        }
+
+        /* Particle Canvas */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Overlay for readability */
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 31, 0.95);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* LOGO */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            box-shadow: var(--neon-glow);
+            animation: logoPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .logo-text {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Rest of styles remain similar but enhanced */
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a:hover {
+            color: white;
+            text-shadow: var(--neon-glow);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: var(--gradient);
+            transition: width 0.3s;
+            border-radius: 1px;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-text h1 {
+            font-size: clamp(3.5rem, 6vw, 5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 50%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            text-shadow: var(--neon-glow);
+        }
+
+        .hero-text .subtitle {
+            font-size: 1.4rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: var(--neon-glow);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 25px 50px rgba(99, 102, 241, 0.6);
+        }
+
+        /* Typing Effect */
+        .typing {
+            border-right: 3px solid var(--primary);
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { border-color: transparent; }
+            51%, 100% { border-color: var(--primary); }
+        }
+
+        /* Sections */
+        .section {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(3rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 4rem;
+            background: linear-gradient(135deg, #ffffff 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        /* Stats with counter animation */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        /* Enhanced Portfolio Cards */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 3rem;
+        }
+
+        .portfolio-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 25px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(20px);
+            position: relative;
+        }
+
+        .portfolio-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 0;
+        }
+
+        .portfolio-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-15px) rotateX(5deg);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+        }
+
+        .portfolio-image {
+            height: 280px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: rgba(255,255,255,0.1);
+        }
+
+        /* Contact Form Enhanced */
+        .contact-form {
+            background: rgba(255,255,255,0.08);
+            padding: 4rem;
+            border-radius: 25px;
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255,255,255,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-form::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive remains same */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 3rem;
+            }
+            .cta-buttons {
+                justify-content: center;
+            }
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Futuristic Background Canvases -->
+    <canvas id="bg-canvas"></canvas>
+    <canvas id="particles-canvas"></canvas>
+    <div class="bg-overlay"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo">
+                <div class="logo-icon">H</div>
+                <div class="logo-text">Humble Innovations</div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Jay Jay James Junior Kahondo</h1>
+                <p class="subtitle">
+                    Founder & CEO of <span class="typing" style="background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Humble Innovations</span><br>
+                    Tech Visionary from Bulawayo, Zimbabwe 🇿🇼
+                </p>
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i> Start Collaboration
+                    </a>
+                    <a href="#portfolio" class="btn btn-secondary">
+                        <i class="fas fa-briefcase"></i> View Projects
+                    </a>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <div style="width: 350px; height: 350px; margin: 0 auto; background: radial-gradient(circle, rgba(99,102,241,0.2), transparent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 6rem; color: white; box-shadow: 0 0 80px rgba(99,102,241,0.6); position: relative; overflow: hidden;">
+                    <div style="font-weight: 800; text-shadow: var(--neon-glow);">JJ</div>
+                    <div style="position: absolute; width: 100%; height: 100%; background: var(--gradient); border-radius: 50%; opacity: 0.1; animation: pulse-ring 3s infinite;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">About the Visionary</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;">
+                <div>
+                    <h3 style="font-size: 2.8rem; margin-bottom: 1.5rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Africa's Tech Future Starts Here</h3>
+                    <p style="font-size: 1.25rem; color: rgba(255,255,255,0.9); line-height: 1.8; margin-bottom: 2rem;">
+                        Jay Jay James Junior Kahondo – Building <strong>Humble Innovations</strong> from Bulawayo, Zimbabwe. 
+                        We're creating scalable tech solutions with global impact, starting from humble beginnings.
+                    </p>
+                    <p style="font-size: 1.25rem; color: rgba(255,255,255,0.9);">
+                        <strong>Currently hiring:</strong> Frontend, Backend, DevOps, Full-Stack developers. 
+                        Join our mission → <a href="#contact" style="color: var(--primary); text-decoration: underline;">Apply Now</a>
+                    </p>
+                </div>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-number" data-target="7">0</div>
+                        <div style="color: rgba(255,255,255,0.8);">Years Experience</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" data-target="75">0</div>
+                        <div style="color: rgba(255,255,255,0.8);">Projects Live</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" data-target="25">0</div>
+                        <div style="color: rgba(255,255,255,0.8);">Team Members</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" data-target="100">0</div>
+                        <div style="color: rgba(255,255,255,0.8);">Client Success</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio (keeping similar structure but enhanced) -->
+    <section id="portfolio" class="section">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-card">
+                    <div class="portfolio-image">💳</div>
+                    <div style="padding: 2.5rem;">
+                        <h3 style="color: white; margin-bottom: 1rem;">ZimPay</h3>
+                        <p style="color: rgba(255,255,255,0.8); margin-bottom: 1.5rem;">Mobile money platform processing $2M+ monthly across Zimbabwe.</p>
+                        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                            <span style="padding: 0.5rem 1.25rem; background: rgba(16,185,129,0.2); border-radius: 20px; font-size: 0.85rem; color: #10b981;">React Native</span>
+                            <span style="padding: 0.5rem 1.25rem; background: rgba(99,102,241,0.2); border-radius: 20px; font-size: 0.85rem; color: var(--primary);">Node.js</span>
+                            <span style="padding: 0.5rem 1.25rem; background: rgba(6,182,212,0.2); border-radius: 20px; font-size: 0.85rem; color: var(--accent);">Blockchain</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more cards as needed -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">Let's Build the Future</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;">
+                <div>
+                    <div style="display: flex; flex-direction: column; gap: 2.5rem; margin-bottom: 2rem;">
+                        <div style="display: flex; align-items: center; gap: 1.5rem; padding: 2rem; background: rgba(255,255,255,0.08); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);">
+                            <i class="fas fa-map-marker-alt" style="font-size: 2rem; color: var(--primary);"></i>
+                            <div>
+                                <h4 style="color: white; margin-bottom: 0.5rem;">Bulawayo, Zimbabwe</h4>
+                                <p style="color: rgba(255,255,255,0.8);">Building Africa's tech revolution from the City of Kings and Quees</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1.5rem; padding: 2rem; background: rgba(255,255,255,0.08); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);">
+                            <i class="fas fa-envelope" style="font-size: 2rem; color: var(--primary);"></i>
+                            <div>
+                                <h4 style="color: white; margin-bottom: 0.5rem;">hello jj2305615@gmail.com</h4>
+                                <p style="color: rgba(255,255,255,0.8);">24hr response time</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form" id="contactForm">
+                    <div style="margin-bottom: 2.5rem;">
+                        <label style="display: block; margin-bottom: 1rem; color: rgba(255,255,255,0.9); font-weight: 600;">Name</label>
+                        <input type="text" name="name" required style="width: 100%; padding: 1.5rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 15px; color: white; font-size: 1.1rem;">
+                    </div>
+                    <div style="margin-bottom: 2.5rem;">
+                        <label style="display: block; margin-bottom: 1rem; color: rgba(255,255,255,0.9); font-weight: 600;">Email</label>
+                        <input type="email" name="email" required style="width: 100%; padding: 1.5rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 15px; color: white; font-size: 1.1rem;">
+                    </div>
+                    <div style="margin-bottom: 3rem;">
+                        <label style="display: block; margin-bottom: 1rem; color: rgba(255,255,255,0.9); font-weight: 600;">Message</label>
+                        <textarea name="message" rows="6" required style="width: 100%; padding: 1.5rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 15px; color: white; font-size: 1.1rem; resize: vertical;" placeholder="Tell me about your vision..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.5rem; font-size: 1.1rem;">Launch Collaboration <i class="fas fa-arrow-right"></i></button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 1. LIVE FUTURISTIC MATRIX BACKGROUND
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポ';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#0a84ff';
+            ctx.font = `${fontSize}px monospace`;
+            
+            drops.forEach((y, i) => {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(text, i * fontSize, y * fontSize);
+                
+                if (y * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            });
+        }
+
+        setInterval(drawMatrix, 50);
+
+        // 2. PARTICLE SYSTEM
+        const particlesCanvas = document.getElementById('particles-canvas');
+        const pCtx = particlesCanvas.getContext('2d');
+        particlesCanvas.width = window.innerWidth;
+        particlesCanvas.height = window.innerHeight;
+
+        const particles = [];
+        class Particle {
+            constructor() {
+                this.x = Math.random() * particlesCanvas.width;
+                this.y = Math.random() * particlesCanvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > particlesCanvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > particlesCanvas.height || this.y < 0) this.speedY *= -1;
+            }
+            draw() {
+                pCtx.fillStyle = 'rgba(99, 102, 241, 0.6)';
+                pCtx.beginPath();
+                pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                pCtx.fill();
+            }
+        }
+
+        for (let i = 0; i < 100; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            pCtx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // 3. COUNTER ANIMATION
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const increment = target / 100;
+                
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment);
+                    setTimeout(() => animateCounters(), 30);
+                } else {
+                    counter.innerText = target;
+                }
+            });
+        }
+
+        // Intersection Observer for counters
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        });
+
+        document.querySelector('.stats').addEventListener('mouseenter', animateCounters);
+
+        // 4. Resize handler
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particlesCanvas.width = window.innerWidth;
+            particlesCanvas.height = window.innerHeight;
+        });
+
+        // 5. Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(10, 14, 31, 0.98)';
+                navbar.style.boxShadow = '0 10px 30px rgba(0,0,0,0.5)';
+            } else {
+                navbar.style.background = 'rgba(10, 14, 31, 0.95)';
+                navbar.style.box-shadow = 'none';
+            }
+        });
+
+        // 6. Smooth scrolling & form handling (same as before)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const button = this.querySelector('button');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                alert('🚀 Message transmitted to the matrix!\n\nResponse incoming within 24hrs. Welcome to the future of collaboration.');
+                this.reset();
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }, 2500);
+        });
+
+        // 7. Mouse trail effect
+        const mouseTrail = [];
+        document.addEventListener('mousemove', (e) => {
+            mouseTrail.push({ x: e.clientX, y: e.clientY });
+            if (mouseTrail.length > 10) mouseTrail.shift();
+        });
+
+        function drawMouseTrail() {
+            pCtx.fillStyle = 'rgba(139, 92, 246, 0.3)';
+            mouseTrail.forEach((point, i) => {
+                pCtx.beginPath();
+                pCtx.arc(point.x, point.y, i * 2, 0, Math.PI * 2);
+                pCtx.fill();
+            });
+            requestAnimationFrame(drawMouseTrail);
+        }
+        drawMouseTrail();
+    </script>
+</body>
+</html>
